@@ -9,6 +9,7 @@ helios-testing/helios-reports/
 
 # Stuff from various IDE's and editors
 *.iml
+*.ipr
 *~
 .idea/*
 
