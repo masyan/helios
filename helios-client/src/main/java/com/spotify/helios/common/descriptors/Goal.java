@@ -26,5 +26,6 @@ package com.spotify.helios.common.descriptors;
 public enum Goal {
   START,
   STOP,
-  UNDEPLOY
+  UNDEPLOY,
+  STOP_AND_REMOVE
 }

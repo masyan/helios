@@ -113,6 +113,12 @@ public class Supervisor {
         reactor.signal();
         metrics.supervisorStopped();
         break;
+      case STOP_AND_REMOVE:
+        currentCommand = new StopAndRemove();
+        reactor.signal();
+        metrics.supervisorStopped();
+        break;
+
     }
   }
 
@@ -451,6 +457,26 @@ public class Supervisor {
         return null;
       }
       return containerInfo.state().error();
+    }
+  }
+
+  private class StopAndRemove extends Stop {
+
+    private void removeContainer() throws InterruptedException {
+      if (containerId == null) {
+        return;
+      }
+      try {
+        docker.removeContainer(containerId);
+      } catch (Exception e) {
+        log.error("failed to remove container {}", containerId, e);
+      }
+    }
+
+    @Override
+    public void perform(final boolean done) throws InterruptedException {
+      super.perform(done);
+      removeContainer();
     }
   }
 
